@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -46,6 +48,39 @@ public class UserSearchActivity extends BaseActivity implements UserSearchContra
         recyclerViewUsers.setAdapter(usersAdapter);
 
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        userSearchPresenter.detachView();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_user_search, menu);
+        final MenuItem searchActionMenuItem = menu.findItem(R.id.menu_search);
+        searchView = (SearchView) searchActionMenuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (!searchView.isIconified()) {
+                    searchView.setIconified(true);
+                }
+                userSearchPresenter.search(query);
+                toolbar.setTitle(query);
+                searchActionMenuItem.collapseActionView();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+        searchActionMenuItem.expandActionView();
+        return true;
     }
 
     @Override

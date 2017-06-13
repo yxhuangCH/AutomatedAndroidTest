@@ -26,8 +26,8 @@ android {
         prod {
 
         }
-        mock {
-        }
+//        mock {
+//        }
     }
 
     compileOptions {

@@ -20,14 +20,18 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+
+        }
     }
 
     productFlavors {
-        prod {
-
-        }
-//        mock {
+//        prod {
+//
 //        }
+        mock {   // 结合 Injection,可以直接模拟数据
+        }
     }
 
     compileOptions {
